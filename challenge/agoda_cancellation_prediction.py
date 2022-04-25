@@ -248,30 +248,39 @@ if __name__ == '__main__':
     test, _ = load_data("./test_set_week_3.csv", is_train=False)
 
     # r"C:\Users\nivec\HUJI Drive\Year 2\Semester B\IML\IML.HUJI\challenge\test_set_week_1_labels.csv"
-    # week1_X, _ = load_data("./test_set_week_1.csv", is_train=False)
-    # week1_y = pd.read_csv("./test_set_week_1_labels.csv")["label"]
-    # week2_X, _ = load_data("./test_set_week_2.csv", is_train=False)
-    # week2_y = pd.read_csv("./test_set_week_2_labels.csv")["label"]
+    week1_X, _ = load_data("./test_set_week_1.csv", is_train=False)
+    week1_y = pd.read_csv("./test_set_week_1_labels.csv")["label"]
+    week2_X, _ = load_data("./test_set_week_2.csv", is_train=False)
+    week2_y = pd.read_csv("./test_set_week_2_labels.csv")["label"]
+    week3_X, _ = load_data("./test_set_week_3.csv", is_train=False)
+    week3_y = pd.read_csv("./test_set_week_3_labels.csv")["label"]
+
+    train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.25)
+
+    print("Week 1 loss test")
+    check_estimator_on_labels1 = AgodaCancellationEstimator()
+    check_estimator_on_labels1.fit(X, y)
+    check_estimator_on_labels1.loss(week1_X, week1_y)
+    print("Week 2 loss test")
+    check_estimator_on_labels2 = AgodaCancellationEstimator()
+    check_estimator_on_labels2.fit(X, y)
+    check_estimator_on_labels2.loss(week2_X, week2_y)
+    print("Week 3 loss test")
+    check_estimator_on_labels2 = AgodaCancellationEstimator()
+    check_estimator_on_labels2.fit(X, y)
+    check_estimator_on_labels2.loss(week3_X, week3_y)
+
+    print("Train-Test partition loss test")
+    check_estimator_on_train = AgodaCancellationEstimator()
+    check_estimator_on_train.fit(train_X, train_y)
+    check_estimator_on_train.loss(test_X.to_numpy(), test_y.to_numpy())
+
+
+
+    # # Fit model over data
+    # estimator = AgodaCancellationEstimator()
+    # estimator.fit(X, y)
     #
-    # train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.25)
-
-    # print("Week 1 loss test")
-    # check_estimator_on_labels1 = AgodaCancellationEstimator()
-    # check_estimator_on_labels1.fit(X, y)
-    # check_estimator_on_labels1.loss(week1_X, week1_y)
-    # print("Week 2 loss test")
-    # check_estimator_on_labels2 = AgodaCancellationEstimator()
-    # check_estimator_on_labels2.fit(X, y)
-    # check_estimator_on_labels2.loss(week2_X, week2_y)
-    # print("Train-Test partition loss test")
-    # check_estimator_on_train = AgodaCancellationEstimator()
-    # check_estimator_on_train.fit(train_X, train_y)
-    # check_estimator_on_train.loss(test_X.to_numpy(), test_y.to_numpy())
-
-    # Fit model over data
-    estimator = AgodaCancellationEstimator()
-    estimator.fit(X, y)
-
-    # Store model predictions over test set
-    evaluate_and_export(estimator, test.to_numpy(),
-                        "2055501016_208543116_207129420.csv")
+    # # Store model predictions over test set
+    # evaluate_and_export(estimator, test.to_numpy(),
+    #                     "2055501016_208543116_207129420.csv")

@@ -110,8 +110,9 @@ class AgodaCancellationEstimator(BaseEstimator):
             Performance under loss function
         """
         f1_macros = []
-        threshold_options = [0.01, 0.1, 0.25, 0.5, 0.75, 0.9]
+        # threshold_options = [0.01, 0.1, 0.25, 0.5, 0.75, 0.9]
         # threshold_options = [i / 100 for i in range(1, 11)]
+        threshold_options = [0.08]
         for threshold in threshold_options:
             res = self.predict_with_threshold(X, threshold)
             tp1 = tn1 = fp1 = fn1 = 0
