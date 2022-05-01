@@ -3,12 +3,15 @@ from typing import NoReturn
 from IMLearn.base import BaseEstimator
 import numpy as np
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.svm import SVC
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier, \
+    RandomForestRegressor, BaggingRegressor, AdaBoostRegressor, \
+    GradientBoostingRegressor
+from sklearn.svm import SVC, SVR
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import make_pipeline
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis,\
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, \
     QuadraticDiscriminantAnalysis
 
 
@@ -30,9 +33,24 @@ class AgodaCancellationEstimator(BaseEstimator):
 
         """
         super().__init__()
+        ## NEW:
+        # self.model = AdaBoostClassifier(n_estimators=100)
+        # self.model = AdaBoostClassifier(n_estimators=100, random_state=0)
+        # self.model = AdaBoostRegressor(n_estimators=100, random_state=0)
+        # self.model = RandomForestClassifier(max_depth=2, random_state=0)
+        # self.model = RandomForestClassifier(max_depth=5, random_state=0)
+        # self.model = RandomForestClassifier(max_depth=10, random_state=0)
+        # self.model = RandomForestRegressor(max_depth=2, random_state=0)
+        # self.model = RandomForestRegressor(max_depth=5, random_state=0)
+        # self.model = RandomForestRegressor(max_depth=10, random_state=0)
+        # self.model = BaggingRegressor()
+        # self.model = BaggingRegressor(base_estimator=SVR())
+        # self.model = BaggingRegressor(base_estimator=LinearRegression())
+        # self.model = BaggingRegressor(base_estimator=QuadraticDiscriminantAnalysis())
+        self.model = GradientBoostingRegressor(random_state=0)
         # # Original:
         # Over week1 and week2, LinearRegression is best with threshold = 0.08
-        self.model = LinearRegression()
+        # self.model = LinearRegression()
         # # New tries:
         # self.model = LogisticRegression() # 10
         # self.model = DecisionTreeClassifier(max_depth=2) # 11
@@ -111,8 +129,9 @@ class AgodaCancellationEstimator(BaseEstimator):
         """
         f1_macros = []
         # threshold_options = [0.01, 0.1, 0.25, 0.5, 0.75, 0.9]
-        # threshold_options = [i / 100 for i in range(1, 11)]
-        threshold_options = [0.08]
+        threshold_options = [i / 100 for i in range(1, 11)]
+        # threshold_options = [i / 100 + 0.1 for i in range(1, 11)]
+        # threshold_options = [0.08]
         for threshold in threshold_options:
             res = self.predict_with_threshold(X, threshold)
             tp1 = tn1 = fp1 = fn1 = 0

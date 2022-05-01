@@ -245,7 +245,7 @@ if __name__ == '__main__':
     # Load data
     X, y = load_data("../datasets/agoda_cancellation_train.csv", is_train=True)
 
-    test, _ = load_data("./test_set_week_3.csv", is_train=False)
+    test, _ = load_data("./test_set_week_4.csv", is_train=False)
 
     # r"C:\Users\nivec\HUJI Drive\Year 2\Semester B\IML\IML.HUJI\challenge\test_set_week_1_labels.csv"
     week1_X, _ = load_data("./test_set_week_1.csv", is_train=False)
@@ -254,23 +254,29 @@ if __name__ == '__main__':
     week2_y = pd.read_csv("./test_set_week_2_labels.csv")["label"]
     week3_X, _ = load_data("./test_set_week_3.csv", is_train=False)
     week3_y = pd.read_csv("./test_set_week_3_labels.csv")["label"]
+    week4_X, _ = load_data("./test_set_week_4.csv", is_train=False)
+    week4_y = pd.read_csv("./test_set_week_4_labels.csv")["label"]
 
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.25)
 
-    print("Week 1 loss test")
+    print("\nWeek 1 loss test")
     check_estimator_on_labels1 = AgodaCancellationEstimator()
     check_estimator_on_labels1.fit(X, y)
     check_estimator_on_labels1.loss(week1_X, week1_y)
-    print("Week 2 loss test")
+    print("\nWeek 2 loss test")
     check_estimator_on_labels2 = AgodaCancellationEstimator()
     check_estimator_on_labels2.fit(X, y)
     check_estimator_on_labels2.loss(week2_X, week2_y)
-    print("Week 3 loss test")
-    check_estimator_on_labels2 = AgodaCancellationEstimator()
-    check_estimator_on_labels2.fit(X, y)
-    check_estimator_on_labels2.loss(week3_X, week3_y)
+    print("\nWeek 3 loss test")
+    check_estimator_on_labels3 = AgodaCancellationEstimator()
+    check_estimator_on_labels3.fit(X, y)
+    check_estimator_on_labels3.loss(week3_X, week3_y)
+    print("\nWeek 4 loss test")
+    check_estimator_on_labels4 = AgodaCancellationEstimator()
+    check_estimator_on_labels4.fit(X, y)
+    check_estimator_on_labels4.loss(week4_X, week4_y)
 
-    print("Train-Test partition loss test")
+    print("\nTrain-Test partition loss test")
     check_estimator_on_train = AgodaCancellationEstimator()
     check_estimator_on_train.fit(train_X, train_y)
     check_estimator_on_train.loss(test_X.to_numpy(), test_y.to_numpy())
