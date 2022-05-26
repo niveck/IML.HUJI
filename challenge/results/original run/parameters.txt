@@ -1,0 +1,4 @@
+depths in range(1, 6)
+estimators in range(50, 151, 10)
+threshold in np.linspace(0, 0.6, 800)
+weights in range(2, 11) (but I stopped it after 7)
