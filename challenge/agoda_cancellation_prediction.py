@@ -229,7 +229,9 @@ def _parse_cancellation_code(code: str) -> Tuple[int, bool, dict]:
     return days_in_advance, has_no_show_policy, policy_by_days
 
 
-def evaluate_and_export(estimator, X: np.ndarray, filename: str):
+def evaluate_and_export(estimator, X: np.ndarray, filename: str,
+                        # threshold: float = 0.08):
+                        threshold: float = 0.154924874791318):
     """
     Export to specified file the prediction results of given estimator on given testset.
     File saved is in csv format with a single column named 'predicted_values' and n_samples rows containing
@@ -243,8 +245,7 @@ def evaluate_and_export(estimator, X: np.ndarray, filename: str):
     filename:
         path to store file at
     """
-    pd.DataFrame(estimator.predict_with_threshold(X,
-                                                  threshold=0.154924874791318),
+    pd.DataFrame(estimator.predict_with_threshold(X, threshold),
                  columns=["predicted_values"]).to_csv(filename, index=False)
 
 
@@ -254,7 +255,7 @@ if __name__ == '__main__':
     # Load data
     X, y = load_data("../datasets/agoda_cancellation_train.csv", is_train=True)
 
-    test, _ = load_data("./week_7_test_data.csv", is_train=False)
+    test, _ = load_data("./week_9_test_data.csv", is_train=False)
 
     week1_X, _ = load_data("./week_1_test_data.csv", is_train=False)
     week1_y = pd.read_csv("./week_1_labels.csv")["cancel"]
@@ -268,14 +269,20 @@ if __name__ == '__main__':
     week5_y = pd.read_csv("./week_5_labels.csv")["cancel"]
     week6_X, _ = load_data("./week_6_test_data.csv", is_train=False)
     week6_y = pd.read_csv("./week_6_labels.csv")["cancel"]
+    week7_X, _ = load_data("./week_7_test_data.csv", is_train=False)
+    week7_y = pd.read_csv("./week_7_labels.csv")["cancel"]
+    week8_X, _ = load_data("./week_8_test_data.csv", is_train=False)
+    week8_y = pd.read_csv("./week_8_labels.csv")["cancel"]
 
-    train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.25)
+    # train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.25)
 
     weights = np.ones(y.shape[0])
     for j, val in enumerate(y):
         if val == 1:
             weights[j] = 2  # our chosen weights hyperparameter
 
+    print("\nEstimating loss *with* weights, "
+          "pay attention to loss's threshold!")
     print("\nWeek 1 loss test")
     check_estimator_on_labels1 = AgodaCancellationEstimator()
     check_estimator_on_labels1.fit_with_weight(X, y, weights)
@@ -300,13 +307,56 @@ if __name__ == '__main__':
     check_estimator_on_labels6 = AgodaCancellationEstimator()
     check_estimator_on_labels6.fit_with_weight(X, y, weights)
     check_estimator_on_labels6.loss(week6_X, week6_y)
+    print("\nWeek 7 loss test")
+    check_estimator_on_labels7 = AgodaCancellationEstimator()
+    check_estimator_on_labels7.fit_with_weight(X, y, weights)
+    check_estimator_on_labels7.loss(week7_X, week7_y)
+    print("\nWeek 8 loss test")
+    check_estimator_on_labels8 = AgodaCancellationEstimator()
+    check_estimator_on_labels8.fit_with_weight(X, y, weights)
+    check_estimator_on_labels8.loss(week8_X, week8_y)
+
+    # print("\nEstimating loss *without* weights,"
+    #       " pay attention to loss's threshold!")
+    # print("\nWeek 1 loss test")
+    # check_estimator_on_labels1 = AgodaCancellationEstimator()
+    # check_estimator_on_labels1.fit(X, y)
+    # check_estimator_on_labels1.loss(week1_X, week1_y)
+    # print("\nWeek 2 loss test")
+    # check_estimator_on_labels2 = AgodaCancellationEstimator()
+    # check_estimator_on_labels2.fit(X, y)
+    # check_estimator_on_labels2.loss(week2_X, week2_y)
+    # print("\nWeek 3 loss test")
+    # check_estimator_on_labels3 = AgodaCancellationEstimator()
+    # check_estimator_on_labels3.fit(X, y)
+    # check_estimator_on_labels3.loss(week3_X, week3_y)
+    # print("\nWeek 4 loss test")
+    # check_estimator_on_labels4 = AgodaCancellationEstimator()
+    # check_estimator_on_labels4.fit(X, y)
+    # check_estimator_on_labels4.loss(week4_X, week4_y)
+    # print("\nWeek 5 loss test")
+    # check_estimator_on_labels5 = AgodaCancellationEstimator()
+    # check_estimator_on_labels5.fit(X, y)
+    # check_estimator_on_labels5.loss(week5_X, week5_y)
+    # print("\nWeek 6 loss test")
+    # check_estimator_on_labels6 = AgodaCancellationEstimator()
+    # check_estimator_on_labels6.fit(X, y)
+    # check_estimator_on_labels6.loss(week6_X, week6_y)
+    # print("\nWeek 7 loss test")
+    # check_estimator_on_labels7 = AgodaCancellationEstimator()
+    # check_estimator_on_labels7.fit(X, y)
+    # check_estimator_on_labels7.loss(week7_X, week7_y)
+    # print("\nWeek 8 loss test")
+    # check_estimator_on_labels8 = AgodaCancellationEstimator()
+    # check_estimator_on_labels8.fit(X, y)
+    # check_estimator_on_labels8.loss(week8_X, week8_y)
 
     # print("\nTrain-Test partition loss test")
     # check_estimator_on_train = AgodaCancellationEstimator()
     # check_estimator_on_train.fit(train_X, train_y)
     # check_estimator_on_train.loss(test_X.to_numpy(), test_y.to_numpy())
 
-    # # Test for checking multiple estimators
+    # # Original Test for checking multiple estimators with weights
     # # for i in range(2, 11):
     # for i in [i / 2 for i in range(8)]:
     #     print(f"Starting weight {i}")
@@ -328,20 +378,28 @@ if __name__ == '__main__':
     #     df.to_csv(f'./results/comparison_weight_{i}.csv', index=False)
     #     print(f"Finished weight {i}")
 
-    # results = np.zeros(6)
-    # for i, sample in enumerate(samples):
-    #     test_X, test_y = sample
-    #     results[i] = estimator.loss(test_X, test_y)
-    # mean = np.mean(results)
-    # median = np.median(results)
-    # min_res = np.min(results)
-    # max_res = np.max(results)
-    # print(f"regular estimator: mean {mean}, median {median}, min {min_res}, max {max_res}")
+    # # New Test for checking multiple estimators (NN, without weights)
+    # samples = [
+    #     (week1_X, week1_y),
+    #     (week2_X, week2_y),
+    #     (week3_X, week3_y),
+    #     (week4_X, week4_y),
+    #     (week5_X, week5_y),
+    #     (week6_X, week6_y),
+    #     (week7_X, week7_y),
+    #     (week8_X, week8_y),
+    # ]
+    # estimator = AgodaCancellationEstimator(single=False)
+    # estimator.fit(X, y)
+    # df = estimator.loss_multiple(samples)
+    # df.to_csv(f'./results/comparison_neural_network.csv', index=False)
 
-    # Fit model over data
+
+    # # Fit model over data
     estimator = AgodaCancellationEstimator()
+    # estimator.fit(X, y)
     estimator.fit_with_weight(X, y, weights)
 
-    # Store model predictions over test set
+    # # Store model predictions over test set
     evaluate_and_export(estimator, test.to_numpy(),
                         "2055501016_208543116_207129420.csv")

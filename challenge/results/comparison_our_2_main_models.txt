@@ -1,0 +1,84 @@
+*** When model is:
+self.model = RandomForestRegressor(max_depth=3, random_state=0, n_estimators=120)
+
+--- When Weights = 2
+
+Week 1 loss test
+threshold: 0.154924874791318, f1 macro: 0.533627884143348
+Week 2 loss test
+threshold: 0.154924874791318, f1 macro: 0.5457875457875457
+Week 3 loss test
+threshold: 0.154924874791318, f1 macro: 0.5384238587765406
+Week 4 loss test
+threshold: 0.154924874791318, f1 macro: 0.533672480620155
+Week 5 loss test
+threshold: 0.154924874791318, f1 macro: 0.572336265884653
+Week 6 loss test
+threshold: 0.154924874791318, f1 macro: 0.5437037037037037
+Week 7 loss test
+threshold: 0.154924874791318, f1 macro: 0.5072176715455888
+Week 8 loss test
+threshold: 0.154924874791318, f1 macro: 0.5306834967100846
+
+--- When No Weights
+
+to loss's threshold!
+Week 1 loss test
+threshold: 0.08, f1 macro: 0.5421445079143592
+Week 2 loss test
+threshold: 0.08, f1 macro: 0.5625
+Week 3 loss test
+threshold: 0.08, f1 macro: 0.5293152931529315
+Week 4 loss test
+threshold: 0.08, f1 macro: 0.5216663917622941
+Week 5 loss test
+threshold: 0.08, f1 macro: 0.5561344278589913
+Week 6 loss test
+threshold: 0.08, f1 macro: 0.5298507462686567
+Week 7 loss test
+threshold: 0.08, f1 macro: 0.5241373050332068
+Week 8 loss test
+threshold: 0.08, f1 macro: 0.5217695095855714
+
+*** When model is:
+self.model = RandomForestRegressor(max_depth=3, random_state=0)
+
+--- When Weights = 2
+
+Week 1 loss test
+threshold: 0.154924874791318, f1 macro: 0.533627884143348
+Week 2 loss test
+threshold: 0.154924874791318, f1 macro: 0.5457875457875457
+Week 3 loss test
+threshold: 0.154924874791318, f1 macro: 0.5351675371058346
+Week 4 loss test
+threshold: 0.154924874791318, f1 macro: 0.533672480620155
+Week 5 loss test
+threshold: 0.154924874791318, f1 macro: 0.5697091074934069
+Week 6 loss test
+threshold: 0.154924874791318, f1 macro: 0.5437037037037037
+Week 7 loss test
+threshold: 0.154924874791318, f1 macro: 0.5306834967100846
+Week 8 loss test
+threshold: 0.154924874791318, f1 macro: 0.5292929292929293
+
+--- When No Weights
+
+Week 1 loss test
+threshold: 0.08, f1 macro: 0.5293152931529315
+Week 2 loss test
+threshold: 0.08, f1 macro: 0.541948404751046
+Week 3 loss test
+threshold: 0.08, f1 macro: 0.5293152931529315
+Week 4 loss test
+threshold: 0.08, f1 macro: 0.5231143552311436
+Week 5 loss test
+threshold: 0.08, f1 macro: 0.5854196952565552
+Week 6 loss test
+threshold: 0.08, f1 macro: 0.5391575968959673
+Week 7 loss test
+threshold: 0.08, f1 macro: 0.5217695095855714
+Week 8 loss test
+threshold: 0.08, f1 macro: 0.5253703703703704
+
+
