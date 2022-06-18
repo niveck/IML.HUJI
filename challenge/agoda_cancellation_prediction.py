@@ -231,7 +231,8 @@ def _parse_cancellation_code(code: str) -> Tuple[int, bool, dict]:
 
 def evaluate_and_export(estimator, X: np.ndarray, filename: str,
                         # threshold: float = 0.08):
-                        threshold: float = 0.154924874791318):
+                        # threshold: float = 0.154924874791318):
+                        threshold: float = 0.155):
     """
     Export to specified file the prediction results of given estimator on given testset.
     File saved is in csv format with a single column named 'predicted_values' and n_samples rows containing

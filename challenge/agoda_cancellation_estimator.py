@@ -186,7 +186,8 @@ class AgodaCancellationEstimator(BaseEstimator):
 
     def predict_with_threshold(self, X: np.ndarray,
                                # threshold: float = 0.08) \
-                               threshold: float = 0.154924874791318) \
+                               # threshold: float = 0.154924874791318) \
+                               threshold: float = 0.155) \
             -> np.ndarray:
         """
         Predict responses for given samples using fitted estimator
@@ -218,7 +219,7 @@ class AgodaCancellationEstimator(BaseEstimator):
         """
         f1_macros = []
         # threshold_options = [i / 100 for i in range(1, 11)]
-        threshold_options = [0.08, 0.154924874791318]
+        threshold_options = [0.08, 0.154924874791318, 0.155]
         # threshold_options = [0.08]
         for threshold in threshold_options:
             res = self.predict_with_threshold(X, threshold)
