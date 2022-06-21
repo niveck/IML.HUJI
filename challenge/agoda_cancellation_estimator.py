@@ -97,6 +97,7 @@ class AgodaCancellationEstimator(BaseEstimator):
         # self.model = DecisionTreeClassifier(max_depth=2) # 11
         # self.model = DecisionTreeClassifier(max_depth=5) # 12
         # self.model = DecisionTreeRegressor(max_depth=2)  # 12
+        # self.model = DecisionTreeRegressor(max_depth=3)  # 12
         # self.model = DecisionTreeRegressor(max_depth=5)  # 12
         # self.model = KNeighborsClassifier(n_neighbors=5) # 13
         # self.model = KNeighborsClassifier(n_neighbors=10) # 14
@@ -117,8 +118,9 @@ class AgodaCancellationEstimator(BaseEstimator):
 
         if not single:
             self.models = []
-            for model_type, model_name in [(MLPRegressor, "MLPRegressor"),
-                                           (MLPClassifier, "MLPClassifier")]:
+            for model_type, model_name in [(MLPRegressor, "MLPRegressor")#,
+                                           #(MLPClassifier, "MLPClassifier")
+                                           ]:
                 for solver in ['lbfgs', 'sgd', 'adam']:
                     for hidden_layers_structure in [(100,), (60, 60),
                                                     # (60, 60, 60),
@@ -219,7 +221,7 @@ class AgodaCancellationEstimator(BaseEstimator):
         """
         f1_macros = []
         # threshold_options = [i / 100 for i in range(1, 11)]
-        threshold_options = [0.08, 0.154924874791318, 0.155]
+        threshold_options = [0.08, 0.154924874791318, 0.155, 0.2, 0.4]
         # threshold_options = [0.08]
         for threshold in threshold_options:
             res = self.predict_with_threshold(X, threshold)
@@ -259,6 +261,13 @@ class AgodaCancellationEstimator(BaseEstimator):
                     min_pred = np.min(predictions)
                     max_pred = np.max(predictions)
                     best_threshold = threshold
+                # current_max = np.max(predictions)
+                # if current_max > max_pred:
+                #     median = np.median(predictions)
+                #     mean = np.mean(predictions)
+                #     min_pred = np.min(predictions)
+                #     max_pred = np.max(predictions)
+                #     best_threshold = threshold
             results[i] = (best_threshold, median, mean, min_pred, max_pred)
             print(f"Finished going over {desc}")
         df = pd.DataFrame(results, columns=['threshold', 'median', 'mean',
