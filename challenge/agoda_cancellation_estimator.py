@@ -65,8 +65,11 @@ class AgodaCancellationEstimator(BaseEstimator):
         ----------
         """
         super().__init__()
+        ## Our Final Week favorite:
+        self.model = MLPRegressor(hidden_layer_sizes=(10, 8, 6, 4),
+                                  solver='adam', random_state=17, max_iter=500)
         ## Our chosen non-weighted: (later we returned its weights
-        self.model = RandomForestRegressor(max_depth=3, random_state=0)
+        # self.model = RandomForestRegressor(max_depth=3, random_state=0)
         ## After running many combinations of hyperparameters:
         # self.model = RandomForestRegressor(max_depth=3, random_state=0,
         #                                    n_estimators=120)
@@ -118,17 +121,25 @@ class AgodaCancellationEstimator(BaseEstimator):
 
         if not single:
             self.models = []
-            for model_type, model_name in [(MLPRegressor, "MLPRegressor")#,
-                                           #(MLPClassifier, "MLPClassifier")
-                                           ]:
-                for solver in ['lbfgs', 'sgd', 'adam']:
+            model_type, model_name = MLPRegressor, "MLPRegressor"
+            # for rand_state in range(21):
+            for rand_state in [17]:
+            # for model_type, model_name in [(MLPRegressor, "MLPRegressor")#,
+            #                                #(MLPClassifier, "MLPClassifier")
+            #                                ]:
+                for solver in ['lbfgs',
+                               # 'sgd',
+                               'adam']:
                     for hidden_layers_structure in [(100,), (60, 60),
                                                     # (60, 60, 60),
+                                                    (5, 5, 5),
+                                                    (5, 4, 3),
                                                     (10, 8, 6, 4)]:
                         desc = f"{model_name}, hidden layers: {hidden_layers_structure}, " \
-                               f"solver: {solver}"
+                               f"solver: {solver}, random_state: {rand_state}"
                         model = model_type(hidden_layer_sizes=hidden_layers_structure,
-                                           solver=solver)
+                                           solver=solver, random_state=rand_state,
+                                           max_iter=500)
                         self.models.append((model, desc))
 
             ### Original tests:
@@ -189,7 +200,8 @@ class AgodaCancellationEstimator(BaseEstimator):
     def predict_with_threshold(self, X: np.ndarray,
                                # threshold: float = 0.08) \
                                # threshold: float = 0.154924874791318) \
-                               threshold: float = 0.155) \
+                               # threshold: float = 0.155) \
+                               threshold: float = 0.395) \
             -> np.ndarray:
         """
         Predict responses for given samples using fitted estimator
