@@ -68,6 +68,10 @@ class AgodaCancellationEstimator(BaseEstimator):
         ## Our Final Week favorite:
         self.model = MLPRegressor(hidden_layer_sizes=(10, 8, 6, 4),
                                   solver='adam', random_state=17, max_iter=500)
+        # self.model = MLPRegressor(hidden_layer_sizes=(5, 5, 5),
+        #                           solver='lbfgs', random_state=2, max_iter=500)
+        # self.model = MLPRegressor(hidden_layer_sizes=(100,),
+        #                           solver='lbfgs', random_state=3, max_iter=500)
         ## Our chosen non-weighted: (later we returned its weights
         # self.model = RandomForestRegressor(max_depth=3, random_state=0)
         ## After running many combinations of hyperparameters:
@@ -201,7 +205,8 @@ class AgodaCancellationEstimator(BaseEstimator):
                                # threshold: float = 0.08) \
                                # threshold: float = 0.154924874791318) \
                                # threshold: float = 0.155) \
-                               threshold: float = 0.395) \
+                               # threshold: float = 0.5) \
+                               threshold: float = 0.45) \
             -> np.ndarray:
         """
         Predict responses for given samples using fitted estimator

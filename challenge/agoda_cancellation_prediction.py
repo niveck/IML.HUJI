@@ -233,7 +233,8 @@ def evaluate_and_export(estimator, X: np.ndarray, filename: str,
                         # threshold: float = 0.08):
                         # threshold: float = 0.154924874791318):
                         # threshold: float = 0.155):
-                        threshold: float = 0.395):
+                        # threshold: float = 0.5):
+                        threshold: float = 0.45):
     """
     Export to specified file the prediction results of given estimator on given testset.
     File saved is in csv format with a single column named 'predicted_values' and n_samples rows containing
